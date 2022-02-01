@@ -2,7 +2,7 @@ import React from "react";
 import { VERSION } from "@twilio/flex-ui";
 import { FlexPlugin } from "flex-plugin";
 
-import CustomTaskListContainer from "./components/CustomTaskList/CustomTaskList.Container";
+import HelloFlex from "./components/HelloFlex/HelloFlex.Container";
 import reducers, { namespace } from "./states";
 
 const PLUGIN_NAME = "TfrelsSamplePlugin";
@@ -19,11 +19,7 @@ export default class TfrelsSamplePlugin extends FlexPlugin {
   init(flex, manager) {
     this.registerReducers(manager);
 
-    flex.CRMContainer.defaultProps.uriCallback = (task) => {
-      return task
-        ? `https://bing.com/?q=${task.attributes.name}`
-        : "https://bing.com";
-    };
+    flex.AgentDesktopView.Panel2.Content.replace(<HelloFlex key="hello-component" />);
   }
 
   /**
