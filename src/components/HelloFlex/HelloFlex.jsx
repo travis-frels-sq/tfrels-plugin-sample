@@ -1,17 +1,16 @@
 import React from "react";
 import { HelloFlexComponentStyles } from "./HelloFlex.Styles";
 
-// It is recommended to keep components stateless and use redux for managing states
 const HelloFlex = (props) => {
+  const message = props.isInChat
+    ? "I'm in a chat right now."
+    : "I'm wating for a chat to begin.";
+
   return (
     <HelloFlexComponentStyles>
-      <p>Hello, Flex!</p>
+      <h1>Hello, Flex!</h1>
     </HelloFlexComponentStyles>
   );
 };
-
-HelloFlex.displayName = "HelloFlex";
-
-HelloFlex.propTypes = {};
 
 export default HelloFlex;
