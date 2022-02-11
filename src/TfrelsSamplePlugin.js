@@ -1,10 +1,8 @@
 import React from "react";
-import { VERSION } from "@twilio/flex-ui";
 import { FlexPlugin } from "flex-plugin";
-
-import HelloFlex from "./components/HelloFlex/HelloFlex.Container";
 import reducers, { namespace } from "./states";
-import { Actions } from "@twilio/flex-ui";
+
+import MacroList from "./components/MacroList";
 
 const PLUGIN_NAME = "TfrelsSamplePlugin";
 
@@ -20,11 +18,18 @@ export default class TfrelsSamplePlugin extends FlexPlugin {
   init(flex, manager) {
     this.registerReducers(manager);
 
-    const options = { sortOrder: -1 };
-    flex.CRMContainer.Content.replace(
-      <HelloFlex key="hello-component" />,
-      options
+    /* after accept task get macros, using the macro-client, and add to state */
+    flex.Actions.addListener("afterAcceptTask", (payload) =>
+      alert("go get the macros")
     );
+
+    /* after complete task remove macros from state */
+    flex.Actions.addListener("afterCompleteTask", (payload) =>
+      alert("remove macros from state")
+    );
+
+    const options = { sortOrder: -1 };
+    flex.CRMContainer.Content.replace(<MacroList key="macro-list" />, options);
   }
 
   /**
