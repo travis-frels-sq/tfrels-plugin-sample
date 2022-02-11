@@ -11,17 +11,19 @@ const MacroStyles = styled("li")`
   color: white;
 `;
 
-const NoConvoStyles = styled("p")`
+const InfoStyles = styled("p")`
   margin: 10px;
   font-size: 12pt;
   font-weight: bold;
   color: white;
 `;
 
-const macros = [
-  { id: 1, text: "I'm sorry, but I can't help you with that." },
-  { id: 2, text: "Thank-you for contacting me. Have a nice day!" },
-];
+const ErrorStyles = styled("p")`
+  margin: 10px;
+  font-size: 12pt;
+  font-weight: bold;
+  color: red;
+`;
 
 const MacroButton = ({ action, message, title, sid }) => (
   <button
@@ -52,18 +54,27 @@ const Macro = ({ macro: { id, text }, sid }) => (
   </MacroStyles>
 );
 
-const MacroList = ({ task }) => {
+const MacroList = ({ task, macros }) => {
+  if (!task) {
+    return <InfoStyles>I am not in a conversation.</InfoStyles>;
+  }
+
+  if (!macros) {
+    return <InfoStyles>There are no macros.</InfoStyles>;
+  }
+
   try {
-    const sid = TaskHelper.getTaskChatChannelSid(task);
+    const chatChannelSid = TaskHelper.getTaskChatChannelSid(task);
     return (
       <MacroListStyles>
         {macros.map((m) => (
-          <Macro macro={m} sid={sid} />
+          <Macro key={m.id} macro={m} sid={chatChannelSid} />
         ))}
       </MacroListStyles>
     );
   } catch (err) {
-    return <NoConvoStyles>I'm not in a conversation.</NoConvoStyles>;
+    console.log("macro list error: ", err);
+    return <ErrorStyles>There was an error. See the console.</ErrorStyles>;
   }
 };
 
