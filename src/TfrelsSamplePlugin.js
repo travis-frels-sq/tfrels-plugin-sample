@@ -2,7 +2,9 @@ import React from "react";
 import { FlexPlugin } from "flex-plugin";
 import reducers, { namespace } from "./states";
 
-import MacroList from "./components/MacroList";
+import MacroList from "./components/MacroList/MacroList.Container";
+
+import * as MacroClient from "./clients/macro-client";
 
 const PLUGIN_NAME = "TfrelsSamplePlugin";
 
@@ -18,15 +20,20 @@ export default class TfrelsSamplePlugin extends FlexPlugin {
   init(flex, manager) {
     this.registerReducers(manager);
 
-    /* after accept task get macros, using the macro-client, and add to state */
-    flex.Actions.addListener("afterAcceptTask", (payload) =>
-      alert("go get the macros")
-    );
+    flex.Actions.addListener("afterAcceptTask", (payload) => {
+      /* after accept task get macros, using the macro-client, and add to state */
+      manager.store.dispatch({
+        type: "LOAD_MACROS",
+        payload: MacroClient.getMacros(),
+      });
+    });
 
-    /* after complete task remove macros from state */
-    flex.Actions.addListener("afterCompleteTask", (payload) =>
-      alert("remove macros from state")
-    );
+    flex.Actions.addListener("afterCompleteTask", (payload) => {
+      /* after complete task remove macros from state */
+      manager.store.dispatch({
+        type: "CLEAR_MACROS",
+      });
+    });
 
     const options = { sortOrder: -1 };
     flex.CRMContainer.Content.replace(<MacroList key="macro-list" />, options);
