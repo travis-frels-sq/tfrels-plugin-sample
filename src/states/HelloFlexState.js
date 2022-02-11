@@ -1,5 +1,5 @@
 const initialState = {
-  isInChat: false,
+  myState: "you're not not crazy",
 };
 
 const ACTION_ACCEPT_CHAT = "ACCEPT_CHAT";

@@ -4,6 +4,7 @@ import { FlexPlugin } from "flex-plugin";
 
 import HelloFlex from "./components/HelloFlex/HelloFlex.Container";
 import reducers, { namespace } from "./states";
+import { Actions } from "@twilio/flex-ui";
 
 const PLUGIN_NAME = "TfrelsSamplePlugin";
 
@@ -20,21 +21,9 @@ export default class TfrelsSamplePlugin extends FlexPlugin {
     this.registerReducers(manager);
 
     const options = { sortOrder: -1 };
-    flex.AgentDesktopView.Panel2.Content.replace(
+    flex.CRMContainer.Content.replace(
       <HelloFlex key="hello-component" />,
       options
-    );
-
-    flex.Actions.addListener("afterAcceptTask", (payload) => {
-      alert("I accepted a task!");
-    });
-
-    flex.Actions.addListener("afterWrapupTask", (payload) =>
-      alert("I wrapped up a task!")
-    );
-
-    flex.Actions.addListener("afterCompleteTask", (payload) =>
-      alert("I completed up a task!")
     );
   }
 
